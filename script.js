@@ -1,25 +1,20 @@
 document.getElementById("exportarPDF").addEventListener("click", function () {
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
+    let yOffset = 15;
+    const margin = 10;
+    const maxWidth = 190;
 
-    // Configuración inicial
-    let yOffset = 15; // Posición vertical inicial
-    const margin = 10; // Margen izquierdo
-    const maxWidth = 190; // Ancho máximo del texto
-
-    // Reducir tamaño de fuente para compactar
     doc.setFontSize(10);
 
-    // Función para agregar texto con formato
     function addText(text, x, y, bold = false) {
         if (bold) doc.setFont("helvetica", "bold");
         else doc.setFont("helvetica", "normal");
 
         doc.text(text, x, y, { maxWidth });
-        return y + 5; // Retorna la nueva posición
+        return y + 5;
     }
 
-    // Datos personales
     const datosPersonales = [
         { text: "Gabriel Romero Maidana", bold: true },
         { text: "Mendoza, Argentina" },
@@ -32,7 +27,6 @@ document.getElementById("exportarPDF").addEventListener("click", function () {
         yOffset = addText(dato.text, margin, yOffset, dato.bold);
     });
 
-    // Resumen
     yOffset += 5;
     yOffset = addText("Resumen", margin, yOffset, true);
     yOffset = addText(
@@ -41,16 +35,14 @@ document.getElementById("exportarPDF").addEventListener("click", function () {
         yOffset
     );
 
-    // Habilidades técnicas
     yOffset += 5;
     yOffset = addText("Habilidades Técnicas", margin, yOffset, true);
     const habilidades = [
         "HTML5, CSS3, JavaScript", "React.js", "Node.js, Express.js",
         "MongoDB, SQL", "Git, GitHub", "APIs REST"
     ];
-    yOffset = addText(habilidades.join(" · "), margin, yOffset);
 
-    // Proyectos
+    yOffset = addText(habilidades.join(" · "), margin, yOffset);
     yOffset += 5;
     yOffset = addText("Proyectos", margin, yOffset, true);
     const proyectos = [
@@ -77,11 +69,9 @@ document.getElementById("exportarPDF").addEventListener("click", function () {
         yOffset = addText(proyecto.link, margin, yOffset);
     });
 
-    // Educación
     yOffset += 5;
     yOffset = addText("Educación", margin, yOffset, true);
     yOffset = addText("Diplomatura en Programación Web Full Stack - UTN (Oct 2024 - Feb 2025)", margin, yOffset);
 
-    // Guardar el PDF
     doc.save("CV_Gabriel_Romero_Maidana.pdf");
 });
